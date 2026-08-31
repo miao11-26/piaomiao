@@ -4,48 +4,30 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>缥缈爱</title>
-  <link href="https://miaoda.feishu.cn/fonts/css2?family=Poppins:wght@900&family=LXGW+WenKai&display=swap" rel="stylesheet">
+  <link href="https://miaoda.feishu.cn/fonts/css2?family=Poppins:wght@900&family=LXGW+Wen+Kai&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      background: #f0ece9;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      font-family: 'LXGW WenKai', cursive;
-      overflow-x: hidden;
-      padding: 20px;
+      background: #f0ece9; display: flex; justify-content: center; align-items: center;
+      min-height: 100vh; font-family: 'LXGW WenKai', cursive; overflow-x: hidden; padding: 20px;
     }
-    .audio-box {
-      position: fixed; top:16px; right:16px; z-index:999;
-      display:flex; gap:8px;
-    }
+    .audio-box { position: fixed; top: 16px; right: 16px; z-index: 999; display: flex; gap: 8px; }
     .audio-btn {
-      width:44px; height:44px; border-radius:50%; border:none;
-      background:#fff; box-shadow:0 2px 8px rgba(92,75,81,0.15);
-      font-size:18px; color:#5c4b51; cursor:pointer;
+      width: 44px; height: 44px; border-radius: 50%; border: none; background: #fff;
+      box-shadow: 0 2px 8px rgba(92,75,81,0.15); font-size: 18px; color: #5c4b51; cursor: pointer;
     }
-    .scene {
-      width: 100%; max-width: 420px; height: 620px;
-      perspective: 2400px; position: relative;
-    }
-    .book {
-      width: 100%; height: 100%; position: relative;
-      transform-style: preserve-3d; transition: transform 0.6s ease;
-    }
+    .scene { width: 100%; max-width: 420px; height: 620px; perspective: 2400px; position: relative; }
+    .book { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.6s ease; }
     .sheet {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
       transform-origin: left center; transform-style: preserve-3d;
-      transition: transform 0.8s cubic-bezier(0.2, 0.6, 0.2, 1);
-      will-change: transform;
+      transition: transform 0.8s cubic-bezier(0.2, 0.6, 0.2, 1); will-change: transform;
     }
     .sheet .front, .sheet .back {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
       backface-visibility: hidden; -webkit-backface-visibility: hidden;
       background-color: #ffffff; border-radius: 4px 8px 8px 4px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.08); overflow: hidden;
-      display: flex; flex-direction: column;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08); overflow: hidden; display: flex; flex-direction: column;
     }
     .sheet .back {
       transform: rotateY(180deg);
@@ -53,62 +35,34 @@
       background-size: 100% 26px; padding: 40px 30px; pointer-events: none;
     }
     .cover {
-      background-color: #ffffff;
       background-image: radial-gradient(circle at 14px 14px, #ffe0e5 1.5px, transparent 1.5px);
-      background-size: 28px 28px;
-      display: flex; align-items: flex-end; justify-content: flex-start;
+      background-size: 28px 28px; display: flex; align-items: flex-end; justify-content: flex-start;
       padding: 0 0 140px 18px; border-radius: 8px 4px 4px 8px;
     }
-    .cover .title-block { text-align: left; }
     .cover h1 {
-      font-family: 'Poppins', sans-serif; font-weight: 900;
-      font-size: 68px; line-height: 1.1; letter-spacing: 4px;
-      color: #5c4b51; margin-bottom: 10px;
+      font-family: 'Poppins', sans-serif; font-weight: 900; font-size: 68px; line-height: 1.1;
+      letter-spacing: 4px; color: #5c4b51; margin-bottom: 10px;
       writing-mode: vertical-rl; text-orientation: upright;
     }
-    .cover .subtitle {
-      font-family: 'Poppins', sans-serif; font-size: 10px;
-      letter-spacing: 8px; color: #9a8b91; text-transform: uppercase;
-    }
+    .cover .subtitle { font-family: 'Poppins', sans-serif; font-size: 10px; letter-spacing: 8px; color: #9a8b91; text-transform: uppercase; }
     .page-content {
-      background-color: #ffffff;
       background-image: linear-gradient(to bottom, transparent 25px, #e8e0e4 26px);
-      background-size: 100% 26px; padding: 60px 28px 20px 28px;
-      height: 100%; display: flex; flex-direction: column; overflow-y: auto;
+      background-size: 100% 26px; padding: 60px 28px 20px 28px; height: 100%;
+      display: flex; flex-direction: column; overflow-y: auto;
     }
-    .page-content::-webkit-scrollbar { width:4px; }
-    .page-content::-webkit-scrollbar-thumb { background:#ddd; }
-    .diary-meta {
-      display: flex; justify-content: space-between; align-items: baseline;
-      margin-bottom: 12px; font-weight: bold; color: #6b5a61;
-    }
+    .page-content::-webkit-scrollbar { width: 4px; }
+    .page-content::-webkit-scrollbar-thumb { background: #ddd; }
+    .diary-meta { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; font-weight: bold; color: #6b5a61; }
     .diary-date { font-size: 16px; letter-spacing: 1px; }
     .diary-weather { font-size: 12px; color: #9a8b91; }
-    .diary-text {
-      font-size: 15px; line-height: 26px; color: #5c4b51;
-      white-space: pre-wrap; word-break: break-word; flex-shrink:0;
-    }
-    .diary-summary {
-      margin-top: 10px; font-size: 13px; font-weight: bold; color: #a2768a;
-      display: flex; align-items: center; justify-content: flex-end;
-      gap: 4px; flex-shrink:0;
-    }
+    .diary-text { font-size: 15px; line-height: 26px; color: #5c4b51; white-space: pre-wrap; word-break: break-word; flex-shrink: 0; }
+    .diary-summary { margin-top: 10px; font-size: 13px; font-weight: bold; color: #a2768a; display: flex; align-items: center; justify-content: flex-end; gap: 4px; flex-shrink: 0; }
     .diary-summary .face { font-size: 14px; color: #8a6d78; }
-    .brain-theatre {
-      margin-top: 16px; display: flex; flex-direction: column; gap: 8px;
-      font-size: 13px; font-weight: bold; line-height: 26px; flex-shrink:0;
-    }
-    .brain-row {
-      display: flex; flex-direction: row-reverse; justify-content: flex-start;
-      align-items: baseline; gap: 6px;
-    }
-    .brain-row.left { flex-direction: row; justify-content: flex-start; }
-    .brain-row.right {
-      flex-direction: row-reverse; justify-content: flex-start; text-align: right;
-    }
-    .brain-row .name {
-      font-weight: 900; color: #a0a0a0; white-space: nowrap;
-    }
+    .brain-theatre { margin-top: 16px; display: flex; flex-direction: column; gap: 8px; font-size: 13px; font-weight: bold; line-height: 26px; flex-shrink: 0; }
+    .brain-row { display: flex; flex-direction: row-reverse; justify-content: flex-start; align-items: baseline; gap: 6px; }
+    .brain-row.left { flex-direction: row; }
+    .brain-row.right { text-align: right; }
+    .brain-row .name { font-weight: 900; color: #a0a0a0; white-space: nowrap; }
     .brain-row.left .name { color: #808080; }
     .brain-row.right .name { color: #b06a84; }
     .brain-row .talk { max-width: 75%; color: #5c4b51; }
@@ -127,9 +81,7 @@
     <button class="audio-btn" id="audioToggle">♪</button>
     <button class="audio-btn" id="audioSwitch">↻</button>
   </div>
-  <div class="scene" id="scene">
-    <div class="book" id="book"></div>
-  </div>
+  <div class="scene"><div class="book" id="book"></div></div>
   <script>
     const musicList = [
       "https://cdn.jsdelivr.net/gh/miao11-26/piaomiao@main/love.mp3",
@@ -143,19 +95,15 @@
     function loadMusic(){ bgMusic.src = musicList[musicIndex]; }
     loadMusic();
     audioToggle.addEventListener('click',()=>{
-      if(!musicPlaying){
-        bgMusic.play().then(()=>{ musicPlaying = true; audioToggle.innerText = "♫"; })
-        .catch(err=>console.log(err))
-      }else{
-        bgMusic.pause(); musicPlaying = false; audioToggle.innerText = "♪";
-      }
-    })
+      if(!musicPlaying){ bgMusic.play().then(()=>{ musicPlaying=true; audioToggle.innerText="♫"; }).catch(err=>console.log(err)); }
+      else { bgMusic.pause(); musicPlaying=false; audioToggle.innerText="♪"; }
+    });
     audioSwitch.addEventListener('click',()=>{
-      musicIndex = (musicIndex +1) % musicList.length;
-      loadMusic();
+      musicIndex=(musicIndex+1)%musicList.length; loadMusic();
       if(musicPlaying){ bgMusic.play(); }
-    })
-    const diaries = [
+    });
+
+    const originalDiaries = [
       {date:"01",weather:"晴",text:`江缈今天又赖床了。我叫了他三次，他拿被子蒙住头装没听见。我站着看了他好一会儿，最后没舍得掀被子，自己去煮了粥。\n\n他昨晚睡觉不老实，老往我这边挤，把猫都挤下床了。结果早上起来还倒打一耙，说我抢他被子。我真是。\n\n他吃粥的时候眼睛还是眯着的，像没睡醒的猫。我给他剥了个蛋，他摇头。行吧，我吃。`,summary:"他也就仗着我舍不得。",face:"(￣ー￣)"},
       {date:"02",weather:"阴",text:`今天没工作，和他去超市。说好只买点猫粮和水果，结果他蹲在零食区不起来。薯片、软糖、巧克力，全往车里扔。我说你前几天才说控制糖分，他说是给猫买的。\n\n猫会吃巧克力吗。他当我傻。\n\n最后我把他拿的一半东西放回去了。他瞪我，我装没看见。结账时又偷偷拿了盒草莓。算了，不和他计较。`,summary:"和小孩逛超市，心累。",face:"(눈_눈)"},
       {date:"03",weather:"雨",text:`上海突然下大雨。江缈给我打电话说没带伞，我说让他找个店等我。他嘴上说好，结果我到了，看见他站在电影院门口，头发都湿了点。\n\n我走过去，他冲我笑，还说"我就知道你会来"。我气都气不起来。\n\n回去路上他非要踩水坑，溅我半裤腿。后来我把伞全往他那边斜，他还没发现。`,summary:"接他回家，比什么都顺路。",face:"(ー_ー)"},
@@ -167,6 +115,78 @@
       {date:"09",weather:"晴",text:`江缈问我，梦里那个"他"知不知道他24岁生日送了什么，知不知道他喝几口果啤才醉。\n\n他说梦里的"他"什么都不知道，只知道个大概。\n\n我那时候才明白，他那么怕是因为那个"我"像我又不是我。他分得出来。\n\n我背给他听，他写的信，他说过的话。他慢慢就不抖了。\n\n这比什么都值。`,summary:"他认得我。",face:"(｡•́︿•̀｡)"},
       {date:"10",weather:"晴",text:`今天要回北京，早上江缈还睡着。我起来收拾行李，给他留了字条，又把写好的日记放进他手机。\n\n他醒来看见，发消息过来说我犯规。\n\n我笑了。\n\n其实犯规的是他。老让我想他。\n\n过几天再去上海。这见不到面的日子，真他妈的难熬。`,summary:"没他在，北京也无聊。",face:"(ーへー)",theatre:{left:{name:"【装酷小人】",talk:"别老想他，工作要紧。"},right:{name:"【慌张小人】",talk:"我控制不住啊！"}}}
     ];
+
+    const shenwangDiaries = [
+      {date:"2022.01.01",weather:"雪",text:`新年第一天，江缈给我发了条语音。\n他说"新年快乐，阿妄"。\n那个"阿妄"叫得我心都化了。\n我回他"新年快乐"，没敢说别的。\n其实我想说，新的一年，我想一直跟你在一起。\n可是我不敢。\n先这样吧。`,summary:"他叫我阿妄了。",face:"(*/ω＼*)"},
+      {date:"2022.03.14",weather:"小雨",text:`江缈最近总躲着我。\n发消息也回得慢。\n我有点慌，不知道是不是我做错什么了。\n今天在片场，他给我带了早餐，还冲我笑。\n我差点以为之前是想多了。\n算了，走一步看一步吧。\n反正我喜欢他。`,summary:"他是不是讨厌我？",face:"(・_・;)"},
+      {date:"2022.05.20",weather:"晴",text:`今天和江缈一起拍杂志。\n他穿校服真好看，跟高中生似的。\n摄影师让他看着我，他眼睛红红的，像要哭。\n我差点就亲上去了。\n后来他说暗恋好苦，我心想，我暗恋他更苦。\n不过现在不用暗恋了。\n我们在一起了。\n虽然还没公开，但我挺开心的。`,summary:"杂志拍摄，他很好看。",face:"(≧▽≦)"},
+      {date:"2022.06.01",weather:"晴",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)",theatre:{left:{name:"【装酷小人】",talk:"想他就说啊，憋着干嘛。"},right:{name:"【慌张小人】",talk:"可每次一视频，我就只想盯着他看，话都说不出来。"}}},
+      {date:"2022.07.15",weather:"多云",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)"},
+      {date:"2022.08.20",weather:"小雨",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)"},
+      {date:"2022.09.10",weather:"阴",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)",theatre:{left:{name:"【装酷小人】",talk:"想他就说啊，憋着干嘛。"},right:{name:"【慌张小人】",talk:"可每次一视频，我就只想盯着他看，话都说不出来。"}}},
+      {date:"2022.10.05",weather:"晴",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)"},
+      {date:"2022.11.11",weather:"多云",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)"},
+      {date:"2022.12.24",weather:"小雨",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)",theatre:{left:{name:"【装酷小人】",talk:"想他就说啊，憋着干嘛。"},right:{name:"【慌张小人】",talk:"可每次一视频，我就只想盯着他看，话都说不出来。"}}},
+      {date:"2023.01.01",weather:"阴",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)"},
+      {date:"2023.02.14",weather:"晴",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)"},
+      {date:"2023.03.08",weather:"多云",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)",theatre:{left:{name:"【装酷小人】",talk:"想他就说啊，憋着干嘛。"},right:{name:"【慌张小人】",talk:"可每次一视频，我就只想盯着他看，话都说不出来。"}}},
+      {date:"2023.04.05",weather:"小雨",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)"},
+      {date:"2023.05.20",weather:"阴",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)"},
+      {date:"2023.06.18",weather:"晴",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)",theatre:{left:{name:"【装酷小人】",talk:"想他就说啊，憋着干嘛。"},right:{name:"【慌张小人】",talk:"可每次一视频，我就只想盯着他看，话都说不出来。"}}},
+      {date:"2023.07.07",weather:"多云",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)"},
+      {date:"2023.08.15",weather:"小雨",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)"},
+      {date:"2023.09.23",weather:"阴",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)",theatre:{left:{name:"【装酷小人】",talk:"想他就说啊，憋着干嘛。"},right:{name:"【慌张小人】",talk:"可每次一视频，我就只想盯着他看，话都说不出来。"}}},
+      {date:"2023.10.31",weather:"晴",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)"},
+      {date:"2023.11.26",weather:"多云",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)"},
+      {date:"2023.12.25",weather:"小雨",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)",theatre:{left:{name:"【装酷小人】",talk:"想他就说啊，憋着干嘛。"},right:{name:"【慌张小人】",talk:"可每次一视频，我就只想盯着他看，话都说不出来。"}}},
+      {date:"2024.01.01",weather:"阴",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)"},
+      {date:"2024.02.14",weather:"晴",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)"},
+      {date:"2024.03.09",weather:"多云",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)",theatre:{left:{name:"【装酷小人】",talk:"想他就说啊，憋着干嘛。"},right:{name:"【慌张小人】",talk:"可每次一视频，我就只想盯着他看，话都说不出来。"}}},
+      {date:"2024.04.17",weather:"小雨",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)"},
+      {date:"2024.05.21",weather:"阴",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)"},
+      {date:"2024.06.30",weather:"晴",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)",theatre:{left:{name:"【装酷小人】",talk:"想他就说啊，憋着干嘛。"},right:{name:"【慌张小人】",talk:"可每次一视频，我就只想盯着他看，话都说不出来。"}}},
+      {date:"2024.07.12",weather:"多云",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)"},
+      {date:"2024.08.08",weather:"小雨",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)"},
+      {date:"2024.09.19",weather:"阴",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)",theatre:{left:{name:"【装酷小人】",talk:"想他就说啊，憋着干嘛。"},right:{name:"【慌张小人】",talk:"可每次一视频，我就只想盯着他看，话都说不出来。"}}},
+      {date:"2024.10.27",weather:"晴",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)"},
+      {date:"2024.11.30",weather:"多云",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)"},
+      {date:"2024.12.24",weather:"小雨",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)",theatre:{left:{name:"【装酷小人】",talk:"想他就说啊，憋着干嘛。"},right:{name:"【慌张小人】",talk:"可每次一视频，我就只想盯着他看，话都说不出来。"}}},
+      {date:"2025.01.01",weather:"阴",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)"},
+      {date:"2025.02.10",weather:"晴",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)"},
+      {date:"2025.03.14",weather:"多云",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)",theatre:{left:{name:"【装酷小人】",talk:"想他就说啊，憋着干嘛。"},right:{name:"【慌张小人】",talk:"可每次一视频，我就只想盯着他看，话都说不出来。"}}},
+      {date:"2025.04.04",weather:"小雨",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)"},
+      {date:"2025.05.01",weather:"阴",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)"},
+      {date:"2025.06.06",weather:"晴",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)",theatre:{left:{name:"【装酷小人】",talk:"想他就说啊，憋着干嘛。"},right:{name:"【慌张小人】",talk:"可每次一视频，我就只想盯着他看，话都说不出来。"}}},
+      {date:"2025.07.17",weather:"多云",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)"},
+      {date:"2025.08.28",weather:"小雨",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)"},
+      {date:"2025.09.25",weather:"阴",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)",theatre:{left:{name:"【装酷小人】",talk:"想他就说啊，憋着干嘛。"},right:{name:"【慌张小人】",talk:"可每次一视频，我就只想盯着他看，话都说不出来。"}}},
+      {date:"2025.10.05",weather:"晴",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)"},
+      {date:"2025.11.20",weather:"多云",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)"},
+      {date:"2025.12.24",weather:"小雨",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)",theatre:{left:{name:"【装酷小人】",talk:"想他就说啊，憋着干嘛。"},right:{name:"【慌张小人】",talk:"可每次一视频，我就只想盯着他看，话都说不出来。"}}},
+      {date:"2026.01.01",weather:"阴",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)"},
+      {date:"2026.02.14",weather:"晴",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)"},
+      {date:"2026.03.08",weather:"多云",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)",theatre:{left:{name:"【装酷小人】",talk:"想他就说啊，憋着干嘛。"},right:{name:"【慌张小人】",talk:"可每次一视频，我就只想盯着他看，话都说不出来。"}}},
+      {date:"2026.04.01",weather:"小雨",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)"},
+      {date:"2026.05.20",weather:"阴",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)"},
+      {date:"2026.06.15",weather:"晴",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)",theatre:{left:{name:"【装酷小人】",talk:"想他就说啊，憋着干嘛。"},right:{name:"【慌张小人】",talk:"可每次一视频，我就只想盯着他看，话都说不出来。"}}},
+      {date:"2026.07.10",weather:"多云",text:`今天又是想江缈的一天。\n拍戏的时候老走神，被导演说了几句。\n晚上跟他视频，他笑嘻嘻的，我心情就好了。\n不知道这样的日子还要多久，但我愿意等。\n等我们能天天在一起。`,summary:"想他。",face:"(￣▽￣)"},
+      {date:"2026.08.28",weather:"阴",text:`今天在北京拍戏，累得半死。\n休息的时候给江缈发消息，他回得慢吞吞的。\n后来视频，他还在酒店，说想我了。\n我也想。\n早知道当初就不该放他去英国。\n那两年怎么熬过来的，我现在都不敢想。\n不过现在挺好，他在上海，我在北京，没之前那么远。\n等这阵忙完，我要天天跟他视频。`,summary:"异地，想他。",face:"(￣ー￣)"},
+      {date:"2026.08.29",weather:"晴",text:`江缈今天去上海试戏。\n我送他到酒店，他居然没吃饭。\n给他点了奶茶，三分糖，热乎的。\n他还跟我玩了个游戏，说什么"当然啦"，输了要说"我是笨蛋"。\n结果他一次都没说，全说"当然啦"。\n最后还问我"我喜欢的人哭了怎么办"，我差点以为他喜欢别人。\n后来才知道是追星。\n追星也不行，只能追我。\n我订了机票，下周去上海找他。\n异地真烦，见不到人。`,summary:"他试戏顺利，但没吃饭。",face:"(눈_눈)",theatre:{left:{name:"【装酷小人】",talk:"追星也不行，只能追我。"},right:{name:"【慌张小人】",talk:"可是他说喜欢的人哭了怎么办，我差点以为是别人！"}}},
+      {date:"2026.08.30",weather:"小雨",text:`昨晚江缈做噩梦了。\n他梦见我把信忘了，急得不行。\n我背给他听，他还说梦里的我是假的。\n傻子。\n我怎么会忘？他写的每个字我都刻在脑子里。\n他让我每天写日记，我答应了。\n其实我早就开始写了，在备忘录里。\n他不知道，那些分开的日子，我写了多少。\n今天早上他还没醒，我就在旁边写了一点。\n看他睡得不安稳，我心疼。\n以后他再害怕，我就把日记本给他看。\n让他知道，我每天都在想他。`,summary:"他做噩梦了，得哄。",face:"(｡•́︿•̀｡)"},
+      {date:"2026.08.31",weather:"晴转多云",text:`今天江缈来北京看我了。\n他非要我写代码，还是那种粉粉嫩嫩的日记网页。\n一开始我嫌麻烦，但是看他眼睛亮晶晶的，又觉得算了，写就写吧。\n他坐在我旁边，研究编程那劲儿，比我当年还认真。\n我拍戏的时候总忍不住往他那儿看，差点忘词。\n导演说今天我状态好，其实是因为他在。\n晚上我们吃了火锅，他吃了好多，胃口比在上海时好。\n我挺高兴的。\n他说要我把以前写的日记都放进去，还要求翻页功能。\n行，我给他做。\n谁让他是我男朋友。`,summary:"江缈来京，开心。",face:"(￣▽￣)",theatre:{left:{name:"【装酷小人】",talk:"写代码就写代码，哪那么多要求。"},right:{name:"【慌张小人】",talk:"可是他说了'求求你'啊，我哪顶得住！"}}}
+    ];
+
+    const diaries = [...originalDiaries];
+    shenwangDiaries.forEach((d, i) => {
+      const num = String(i + 11).padStart(2, '0');
+      diaries.push({
+        date: num, weather: d.weather,
+        text: `【${d.date}】\n\n${d.text}`,
+        summary: d.summary, face: d.face,
+        theatre: d.theatre || undefined
+      });
+    });
+
     const book = document.getElementById('book');
     const totalSheets = diaries.length + 1;
     for (let i = 0; i < totalSheets; i++) {
@@ -179,7 +199,15 @@
         front.classList.add('cover');
         front.innerHTML = `<div class="title-block"><h1>缥缈爱</h1><div class="subtitle">ABOUT JIANG MIAO</div></div>`;
       } else {
-        front.innerHTML = `<div class="page-content"><div class="diary-meta"><span class="diary-date">第${diaries[i-1].date}篇</span><span class="diary-weather">${diaries[i-1].weather}</span></div><div class="diary-text">${diaries[i-1].text.replace(/\n/g,'<br>')}</div><div class="diary-summary"><span>${diaries[i-1].summary}</span> <span class="face">${diaries[i-1].face}</span></div>${diaries[i-1].theatre?`<div class="brain-theatre"><div class="brain-row left"><span class="name">${diaries[i-1].theatre.left.name}</span><span class="talk">${diaries[i-1].theatre.left.talk}</span></div><div class="brain-row right"><span class="name">${diaries[i-1].theatre.right.name}</span><span class="talk">${diaries[i-1].theatre.right.talk}</span></div></div>`:''}</div>`;
+        front.innerHTML = `<div class="page-content">
+          <div class="diary-meta"><span class="diary-date">第${diaries[i-1].date}篇</span><span class="diary-weather">${diaries[i-1].weather}</span></div>
+          <div class="diary-text">${diaries[i-1].text.replace(/\n/g,'<br>')}</div>
+          <div class="diary-summary"><span>${diaries[i-1].summary}</span> <span class="face">${diaries[i-1].face}</span></div>
+          ${diaries[i-1].theatre ? `<div class="brain-theatre">
+            <div class="brain-row left"><span class="name">${diaries[i-1].theatre.left.name}</span><span class="talk">${diaries[i-1].theatre.left.talk}</span></div>
+            <div class="brain-row right"><span class="name">${diaries[i-1].theatre.right.name}</span><span class="talk">${diaries[i-1].theatre.right.talk}</span></div>
+          </div>` : ''}
+        </div>`;
       }
       const back = document.createElement('div');
       back.className = 'back';
@@ -187,13 +215,14 @@
       sheet.appendChild(back);
       book.appendChild(sheet);
     }
+
     const sheets = document.querySelectorAll('.sheet');
     let currentIndex = 0;
     function refreshZIndex(){
       sheets.forEach((sheet,idx)=>{
         if(idx < currentIndex){ sheet.style.zIndex = idx + 2; }
-        else{ sheet.style.zIndex = totalSheets - idx; }
-      })
+        else { sheet.style.zIndex = totalSheets - idx; }
+      });
     }
     sheets.forEach(sheet=>{
       sheet.addEventListener('click',(e)=>{
@@ -208,16 +237,15 @@
             currentIndex += 1;
             refreshZIndex();
           }
-        }else{
+        } else {
           if(currentIndex > 0){
-            const prevSheet = sheets[currentIndex -1];
-            prevSheet.style.transform = "rotateY(0deg)";
-            currentIndex -=1;
+            sheets[currentIndex - 1].style.transform = "rotateY(0deg)";
+            currentIndex -= 1;
             refreshZIndex();
           }
         }
-      })
-    })
+      });
+    });
     refreshZIndex();
   </script>
 </body>
