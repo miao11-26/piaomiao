@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>缥缈爱</title>
+  <link href="https://miaoda.feishu.cn/fonts/css2?family=Poppins:wght@900&family=LXGW+WenKai&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #f0ece9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'LXGW WenKai', cursive;
+      overflow-x: hidden;
+      padding: 20px;
+    }
+    .audio-box {
+      position: fixed; top:16px; right:16px; z-index:999;
+      display:flex; gap:8px;
+    }
+    .audio-btn {
+      width:44px; height:44px; border-radius:50%; border:none;
+      background:#fff; box-shadow:0 2px 8px rgba(92,75,81,0.15);
+      font-size:18px; color:#5c4b51; cursor:pointer;
+    }
+    .scene {
+      width: 100%; max-width: 420px; height: 620px;
+      perspective: 2400px; position: relative;
+    }
+    .book {
+      width: 100%; height: 100%; position: relative;
+      transform-style: preserve-3d; transition: transform 0.6s ease;
+    }
+    .sheet {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      transform-origin: left center; transform-style: preserve-3d;
+      transition: transform 0.8s cubic-bezier(0.2, 0.6, 0.2, 1);
+      will-change: transform;
+    }
+    .sheet .front, .sheet .back {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      backface-visibility: hidden; -webkit-backface-visibility: hidden;
+      background-color: #ffffff; border-radius: 4px 8px 8px 4px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08); overflow: hidden;
+      display: flex; flex-direction: column;
+    }
+    .sheet .back {
+      transform: rotateY(180deg);
+      background-image: linear-gradient(to bottom, transparent 25px, #e8e0e4 26px);
+      background-size: 100% 26px; padding: 40px 30px; pointer-events: none;
+    }
+    .cover {
+      background-color: #ffffff;
+      background-image: radial-gradient(circle at 14px 14px, #ffe0e5 1.5px, transparent 1.5px);
+      background-size: 28px 28px;
+      display: flex; align-items: flex-end; justify-content: flex-start;
+      padding: 0 0 140px 18px; border-radius: 8px 4px 4px 8px;
+    }
+    .cover .title-block { text-align: left; }
+    .cover h1 {
+      font-family: 'Poppins', sans-serif; font-weight: 900;
+      font-size: 68px; line-height: 1.1; letter-spacing: 4px;
+      color: #5c4b51; margin-bottom: 10px;
+      writing-mode: vertical-rl; text-orientation: upright;
+    }
+    .cover .subtitle {
+      font-family: 'Poppins', sans-serif; font-size: 10px;
+      letter-spacing: 8px; color: #9a8b91; text-transform: uppercase;
+    }
+    .page-content {
+      background-color: #ffffff;
+      background-image: linear-gradient(to bottom, transparent 25px, #e8e0e4 26px);
+      background-size: 100% 26px; padding: 60px 28px 20px 28px;
+      height: 100%; display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .page-content::-webkit-scrollbar { width:4px; }
+    .page-content::-webkit-scrollbar-thumb { background:#ddd; }
+    .diary-meta {
+      display: flex; justify-content: space-between; align-items: baseline;
+      margin-bottom: 12px; font-weight: bold; color: #6b5a61;
+    }
+    .diary-date { font-size: 16px; letter-spacing: 1px; }
+    .diary-weather { font-size: 12px; color: #9a8b91; }
+    .diary-text {
+      font-size: 15px; line-height: 26px; color: #5c4b51;
+      white-space: pre-wrap; word-break: break-word; flex-shrink:0;
+    }
+    .diary-summary {
+      margin-top: 10px; font-size: 13px; font-weight: bold; color: #a2768a;
+      display: flex; align-items: center; justify-content: flex-end;
+      gap: 4px; flex-shrink:0;
+    }
+    .diary-summary .face { font-size: 14px; color: #8a6d78; }
+    .brain-theatre {
+      margin-top: 16px; display: flex; flex-direction: column; gap: 8px;
+      font-size: 13px; font-weight: bold; line-height: 26px; flex-shrink:0;
+    }
+    .brain-row {
+      display: flex; flex-direction: row-reverse; justify-content: flex-start;
+      align-items: baseline; gap: 6px;
+    }
+    .brain-row.left { flex-direction: row; justify-content: flex-start; }
+    .brain-row.right {
+      flex-direction: row-reverse; justify-content: flex-start; text-align: right;
+    }
+    .brain-row .name {
+      font-weight: 900; color: #a0a0a0; white-space: nowrap;
+    }
+    .brain-row.left .name { color: #808080; }
+    .brain-row.right .name { color: #b06a84; }
+    .brain-row .talk { max-width: 75%; color: #5c4b51; }
+    .brain-row.right .talk { color: #b06a84; }
+    @media (max-width: 480px) {
+      .scene { height: 580px; }
+      .cover h1 { font-size: 52px; letter-spacing: -1px; }
+      .page-content { padding: 50px 20px 16px 20px; }
+      .diary-text { font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <audio id="bgMusic" loop preload="auto"></audio>
+  <div class="audio-box">
+    <button class="audio-btn" id="audioToggle">♪</button>
+    <button class="audio-btn" id="audioSwitch">↻</button>
+  </div>
+  <div class="scene" id="scene">
+    <div class="book" id="book"></div>
+  </div>
+  <script>
+    const musicList = [
+      "https://cdn.jsdelivr.net/gh/miao11-26/piaomiao@main/love.mp3",
+      "https://cdn.jsdelivr.net/gh/miao11-26/piaomiao@main/oo.mp3"
+    ];
+    let musicIndex = 0;
+    const bgMusic = document.querySelector('#bgMusic');
+    const audioToggle = document.querySelector('#audioToggle');
+    const audioSwitch = document.querySelector('#audioSwitch');
+    let musicPlaying = false;
+    function loadMusic(){ bgMusic.src = musicList[musicIndex]; }
+    loadMusic();
+    audioToggle.addEventListener('click',()=>{
+      if(!musicPlaying){
+        bgMusic.play().then(()=>{ musicPlaying = true; audioToggle.innerText = "♫"; })
+        .catch(err=>console.log(err))
+      }else{
+        bgMusic.pause(); musicPlaying = false; audioToggle.innerText = "♪";
+      }
+    })
+    audioSwitch.addEventListener('click',()=>{
+      musicIndex = (musicIndex +1) % musicList.length;
+      loadMusic();
+      if(musicPlaying){ bgMusic.play(); }
+    })
+    const diaries = [
+      {date:"01",weather:"晴",text:`江缈今天又赖床了。我叫了他三次，他拿被子蒙住头装没听见。我站着看了他好一会儿，最后没舍得掀被子，自己去煮了粥。\n\n他昨晚睡觉不老实，老往我这边挤，把猫都挤下床了。结果早上起来还倒打一耙，说我抢他被子。我真是。\n\n他吃粥的时候眼睛还是眯着的，像没睡醒的猫。我给他剥了个蛋，他摇头。行吧，我吃。`,summary:"他也就仗着我舍不得。",face:"(￣ー￣)"},
+      {date:"02",weather:"阴",text:`今天没工作，和他去超市。说好只买点猫粮和水果，结果他蹲在零食区不起来。薯片、软糖、巧克力，全往车里扔。我说你前几天才说控制糖分，他说是给猫买的。\n\n猫会吃巧克力吗。他当我傻。\n\n最后我把他拿的一半东西放回去了。他瞪我，我装没看见。结账时又偷偷拿了盒草莓。算了，不和他计较。`,summary:"和小孩逛超市，心累。",face:"(눈_눈)"},
+      {date:"03",weather:"雨",text:`上海突然下大雨。江缈给我打电话说没带伞，我说让他找个店等我。他嘴上说好，结果我到了，看见他站在电影院门口，头发都湿了点。\n\n我走过去，他冲我笑，还说"我就知道你会来"。我气都气不起来。\n\n回去路上他非要踩水坑，溅我半裤腿。后来我把伞全往他那边斜，他还没发现。`,summary:"接他回家，比什么都顺路。",face:"(ー_ー)"},
+      {date:"04",weather:"晴",text:`江缈非要做饭。我拦不住。\n\n他信誓旦旦说煮面，结果盐放多了，还忘记关火。厨房一股糊味。我过去把他拉开，他有点委屈，说本来想给我做一顿。\n\n我尝了一口，其实也没那么难吃，就是有点咸。我把那碗面全吃完了。他问我怎么样，我说还行，比上次有进步。\n\n他眼睛一下就亮了。`,summary:"难吃我也吃。",face:"(⌒_⌒)"},
+      {date:"05",weather:"晴",text:`他今天试戏过了。给我打电话的时候，声音特别亮，像个小孩子考了满分。我本来还在片场，周围很吵，但一听他笑，我整个人都静下来了。\n\n他说"哥哥的男朋友就是优秀"。我拿着手机低头笑了，旁边助理还以为我在看什么好笑的。\n\n想给他买点东西。不知道买什么。先记着。`,summary:"他开心，我就开心。",face:"(¬‿¬)"},
+      {date:"06",weather:"阴",text:`江缈做了个噩梦，梦里的"我"不记得他了。\n\n他跟我说的时候，声音都在抖。我抱着他，他还在怕。他让我每天写日记，说这样我就不会忘。\n\n我答应了。其实不用写，我也不会忘。但他那么认真，我就写。\n\n他睡着以后，我看着他，脑子里全是他跟我说的那些话。我以前觉得我不怕什么，现在知道，我怕他难过。`,summary:"不想让他再一个人怕。",face:"( ˘•ω•˘ )",theatre:{left:{name:"【装酷小人】",talk:"写日记是不是太矫情了。"},right:{name:"【慌张小人】",talk:"可他怕你忘啊！写！"}}},
+      {date:"07",weather:"多云",text:`昨天把江缈惹到了。他追星，还故意说一次追两个。我知道他是闹着玩，但我还是没忍住，直接订了机票去上海。\n\n他开门的时候还嘴硬，说让我自己解决。结果我坐在沙发上，他盯着我看了一会儿，眼神就软了。\n\n我故意慢慢来，他比我先受不了。江缈这个人，嘴硬心软第一名。`,summary:"治他还不简单。",face:"(￣ω￣)",theatre:{left:{name:"【装酷小人】",talk:"不能总是被他牵着走。"},right:{name:"【慌张小人】",talk:"可他一看我，我就没原则。"}}},
+      {date:"08",weather:"小雨",text:`他给我看他的手机备注：🩶🤍阿妄哥哥。\n\n我盯着那行字看了好几遍，没说话。他问我看什么，我说我看我男朋友怎么这么幼稚。\n\n其实我挺高兴的。他给我改什么我都高兴。\n\n他还说他是哥哥控，说只想我。我面上没表现，但回酒店以后，我把手机解锁，给他的备注改成了"我的"。没让他看。`,summary:"他不是控哥哥，是控我。",face:"(♡˙︶˙♡)"},
+      {date:"09",weather:"晴",text:`江缈问我，梦里那个"他"知不知道他24岁生日送了什么，知不知道他喝几口果啤才醉。\n\n他说梦里的"他"什么都不知道，只知道个大概。\n\n我那时候才明白，他那么怕是因为那个"我"像我又不是我。他分得出来。\n\n我背给他听，他写的信，他说过的话。他慢慢就不抖了。\n\n这比什么都值。`,summary:"他认得我。",face:"(｡•́︿•̀｡)"},
+      {date:"10",weather:"晴",text:`今天要回北京，早上江缈还睡着。我起来收拾行李，给他留了字条，又把写好的日记放进他手机。\n\n他醒来看见，发消息过来说我犯规。\n\n我笑了。\n\n其实犯规的是他。老让我想他。\n\n过几天再去上海。这见不到面的日子，真他妈的难熬。`,summary:"没他在，北京也无聊。",face:"(ーへー)",theatre:{left:{name:"【装酷小人】",talk:"别老想他，工作要紧。"},right:{name:"【慌张小人】",talk:"我控制不住啊！"}}}
+    ];
+    const book = document.getElementById('book');
+    const totalSheets = diaries.length + 1;
+    for (let i = 0; i < totalSheets; i++) {
+      const sheet = document.createElement('div');
+      sheet.className = 'sheet';
+      sheet.dataset.index = i;
+      const front = document.createElement('div');
+      front.className = 'front';
+      if (i === 0) {
+        front.classList.add('cover');
+        front.innerHTML = `<div class="title-block"><h1>缥缈爱</h1><div class="subtitle">ABOUT JIANG MIAO</div></div>`;
+      } else {
+        front.innerHTML = `<div class="page-content"><div class="diary-meta"><span class="diary-date">第${diaries[i-1].date}篇</span><span class="diary-weather">${diaries[i-1].weather}</span></div><div class="diary-text">${diaries[i-1].text.replace(/\n/g,'<br>')}</div><div class="diary-summary"><span>${diaries[i-1].summary}</span> <span class="face">${diaries[i-1].face}</span></div>${diaries[i-1].theatre?`<div class="brain-theatre"><div class="brain-row left"><span class="name">${diaries[i-1].theatre.left.name}</span><span class="talk">${diaries[i-1].theatre.left.talk}</span></div><div class="brain-row right"><span class="name">${diaries[i-1].theatre.right.name}</span><span class="talk">${diaries[i-1].theatre.right.talk}</span></div></div>`:''}</div>`;
+      }
+      const back = document.createElement('div');
+      back.className = 'back';
+      sheet.appendChild(front);
+      sheet.appendChild(back);
+      book.appendChild(sheet);
+    }
+    const sheets = document.querySelectorAll('.sheet');
+    let currentIndex = 0;
+    function refreshZIndex(){
+      sheets.forEach((sheet,idx)=>{
+        if(idx < currentIndex){ sheet.style.zIndex = idx + 2; }
+        else{ sheet.style.zIndex = totalSheets - idx; }
+      })
+    }
+    sheets.forEach(sheet=>{
+      sheet.addEventListener('click',(e)=>{
+        const idx = Number(sheet.dataset.index);
+        if(idx !== currentIndex) return;
+        const rect = sheet.getBoundingClientRect();
+        const clickX = e.clientX - rect.left;
+        const half = rect.width / 2;
+        if(clickX > half){
+          if(currentIndex < totalSheets - 1){
+            sheet.style.transform = "rotateY(-180deg)";
+            currentIndex += 1;
+            refreshZIndex();
+          }
+        }else{
+          if(currentIndex > 0){
+            const prevSheet = sheets[currentIndex -1];
+            prevSheet.style.transform = "rotateY(0deg)";
+            currentIndex -=1;
+            refreshZIndex();
+          }
+        }
+      })
+    })
+    refreshZIndex();
+  </script>
+</body>
+</html>
